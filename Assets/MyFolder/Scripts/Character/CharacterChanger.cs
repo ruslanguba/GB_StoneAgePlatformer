@@ -10,8 +10,9 @@ public class CharacterChanger : MonoBehaviour
     [SerializeField] private CameraFollower _follower;
     [SerializeField] private PetHandler _petHandler;
     public Character GetCurrentCharacter => _currentActiveCharacter;
-    private bool _mainActive = true;
-    private bool _isPetUsed = false;
+    [SerializeField] private bool _mainActive = true;
+    [SerializeField] private bool _isPetUsed = false;
+    [SerializeField] private bool _isPetOnMainCharacter = true;
 
     private void Start()
     {
@@ -24,8 +25,9 @@ public class CharacterChanger : MonoBehaviour
     }
     public void ChangeCharacter()
     {
-        if(!_isPetUsed) 
+        if(_isPetOnMainCharacter) 
             return;
+
         if (_mainActive)
         {
             _mainCharacter.StopCharacter();
@@ -38,6 +40,7 @@ public class CharacterChanger : MonoBehaviour
             _mainCharacter.ActivateCharacter();
             _petCharacter.StopCharacter();
             _currentActiveCharacter = _mainCharacter;
+            _mainActive = true;
         }
         SetCameraTarget();
     }
@@ -47,23 +50,46 @@ public class CharacterChanger : MonoBehaviour
         _follower.SetTarget(_currentActiveCharacter.transform);
     }
 
-    public void UsePet()
+    public void CallPet()
     {
-        if(_isPetUsed)
+        if (!_isPetUsed)
         {
-            _petHandler.ReturnPet();
-            ChangeCharacter();
-            _isPetUsed = false;
+            UsePet();
         }
         else
         {
-            _petHandler.UsePet();
-            _isPetUsed = true;
+            ReturnPet();
         }
+
+        //if (_isPetUsed)
+        //{
+        //    ReturnPet();
+        //    ChangeCharacter();
+        //    _isPetUsed = false;
+        //}
+        //else
+        //{
+        //    UsePet();
+        //    _isPetOnMainCharacter = false;
+        //    _isPetUsed = true;
+        //}
     }
 
-    public void ReternPet()
+    public void UsePet()
     {
+        _petHandler.UsePet();
+        _isPetUsed = true;
+        _isPetOnMainCharacter = false;
+    }
+
+    public void ReturnPet()
+    {
+        if (_currentActiveCharacter == _petCharacter)
+        {
+            ChangeCharacter();
+        }
         _petHandler.ReturnPet();
+        _isPetUsed = false;
+        _isPetOnMainCharacter = true;
     }
 }

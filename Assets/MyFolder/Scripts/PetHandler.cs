@@ -1,11 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class PetHandler : MonoBehaviour
 {
     [SerializeField] private Transform _petTransform;
     [SerializeField] private Transform _originalPetPosition;
-    [SerializeField] private float _duration = 2f;
+    [SerializeField] private float _speed = 10;
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private Collider2D _collider;
     [SerializeField] private RopeDetector _detector;
@@ -43,20 +44,21 @@ public class PetHandler : MonoBehaviour
 
     public void ReturnPet()
     {
-        StartCoroutine(MoveOverTime( _duration));
+        _rb.bodyType = RigidbodyType2D.Kinematic;
+        StartCoroutine(MoveOverTime());
     }
 
-    private IEnumerator MoveOverTime(float duration)
+    private IEnumerator MoveOverTime()
     {
         _collider.enabled = false;
         _detector.enabled = false;
-        float elapsedTime = 0f;
-        while (elapsedTime < duration)
+        while (Vector2.Distance(_petTransform.transform.position, _originalPetPosition.position) > 0.01f)
         {
-            _petTransform.position = Vector2.MoveTowards(_petTransform.position, _originalPetPosition.position, (elapsedTime / duration) * Vector2.Distance(_petTransform.position, _originalPetPosition.position));
-            elapsedTime += Time.deltaTime;
+            _petTransform.transform.position = Vector2.MoveTowards(_petTransform.position, _originalPetPosition.position, _speed * Time.deltaTime);
             yield return null;
         }
+
+        _petTransform.transform.position = _originalPetPosition.position; // Устанавливаем точно в точку
         _petTransform.position = _originalPetPosition.position;
         _isPetActive = false;
         _ropeDetector.enabled = false;

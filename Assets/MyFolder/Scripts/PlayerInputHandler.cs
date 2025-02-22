@@ -41,7 +41,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void UsePetPerformed(InputAction.CallbackContext obj)
     {
-        _characterChanger.UsePet();
+        _characterChanger.CallPet();
     }
 
     private void OnDisable()
