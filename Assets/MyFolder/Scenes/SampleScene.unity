@@ -4864,6 +4864,7 @@ GameObject:
   m_Component:
   - component: {fileID: 865330999}
   - component: {fileID: 865331000}
+  - component: {fileID: 865331001}
   m_Layer: 0
   m_Name: ButtonController
   m_TagString: Untagged
@@ -4898,6 +4899,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c250077a629f88d4eafd31eff2754136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &865331001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865330998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff9f3669568ef1749a87a8258b8914f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _menuPanel: {fileID: 0}
 --- !u!1 &875988788
 GameObject:
   m_ObjectHideFlags: 0
@@ -11141,7 +11155,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2045915886
 RectTransform:
   m_ObjectHideFlags: 0
